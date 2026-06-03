@@ -1,6 +1,5 @@
 { lib, inputs, ... }:
 let
-  # Define the directory containing host configurations
   hostsDir = ./.;
 
   dirContents = builtins.readDir hostsDir;
@@ -8,13 +7,15 @@ let
     (name: type: type == "directory" && !(lib.strings.hasPrefix "_" name)) 
     dirContents;
 
-  # Function to create a NixOS system configuration for a given host
   mkHost = hostName: inputs.nixpkgs.lib.nixosSystem {
     system = "x86_64-linux"; 
     
     specialArgs = { inherit inputs; };
     
     modules = [
+      {
+        networking.hostName = hostName;
+      }
       ./_common
       ./_modules
       ./${hostName}
