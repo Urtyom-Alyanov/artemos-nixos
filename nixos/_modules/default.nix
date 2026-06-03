@@ -1,4 +1,4 @@
-{ config, lib, ... } @ args:
+{ config, lib, ... }:
 
 let
   baseDir = toString ./.;
@@ -6,7 +6,6 @@ let
   mkNixOSModules = dir:
     let
       contents = builtins.readDir dir;
-      
       files = lib.mapAttrsToList (name: type:
         let 
           path = "${toString dir}/${name}";
@@ -22,24 +21,22 @@ let
     in
       lib.flatten files;
 
-  modulePaths = mkNixOSModules ./.;
+  allModuleFiles = mkNixOSModules ./.;
 
-  makeArgsForModule = path: { config, ... }:
+  evaluateModule = file:
     let
-      dir = builtins.dirOf path;
-      relativeDir = lib.strings.removePrefix "${baseDir}/" (toString dir);
-      subPath = lib.strings.splitString "/" relativeDir;
-      modulePath = [ "modules" ] ++ subPath;
-    in {
-      key = toString path; 
-      _module.args = {
-        inherit modulePath;
-        moduleConfig = lib.attrsets.attrByPath modulePath {} config;
-        createOptions = options: lib.setAttrByPath modulePath options;
+      relPath = lib.removeSuffix "/default.nix" (lib.removePrefix "${baseDir}/" (toString file));
+      mPath = lib.splitString "/" relPath;
+      
+      helpers = {
+        modulePath = [ "modules" ] ++ mPath;
+        createOptions = options: lib.setAttrByPath ([ "modules" ] ++ mPath) options;
+        moduleConfig = lib.attrByPath helpers.modulePath {} config;
       };
-    };
-
+    in
+      (import file) helpers;
 in
 {
-  imports = mkNixOSModules ./. ++ (map makeArgsForModule modulePaths);
+  # Передаем уже вычисленные модули
+  imports = map evaluateModule allModuleFiles;
 }

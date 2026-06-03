@@ -1,4 +1,5 @@
-{ pkgs, config, lib, createOptions, moduleConfig, ... }:
+{ moduleConfig, createOptions, ... }:
+{ pkgs, config, lib, ... }:
 
 with lib;
 
@@ -33,7 +34,7 @@ in
 
     hardware = {
       nvidia = {
-        enable = true;
+        enabled = true;
         powerManagement.enable = true;
         modesetting.enable = true;
 
