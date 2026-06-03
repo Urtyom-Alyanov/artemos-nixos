@@ -16,7 +16,7 @@ with lib;
 }
 ```
 
-Аргументы фабрики, они же `helpers`, содержат такие значения;
+Аргументы фабрики, они же `helpers`, содержат такие значения:
 ```nix
 {
   modulePath = [ "modules" ] ++ mPath;
@@ -24,7 +24,7 @@ with lib;
     lib.setAttrByPath ([ "modules" ] ++ mPath) options;
   moduleConfig = lib.attrByPath helpers.modulePath {} config;
 }
-# Где mPath - путь для `default.nix` файла относительно `/nixos/_modules`, то есть
+# Где mPath - путь до `default.nix` файла относительно `/nixos/_modules`, то есть
 # если путь `/nixos/_modules/video/nvidia/default.nix` - то внутри mPath будет ["video" "nvidia"],
 # следовательно внутри modulePath будет ["modules" "video" "nvidia"] и поэтому внутри
 # moduleConfig будет уже находится modules.video.nvidia, а mkOptions уже создаст внутри options такой же путь

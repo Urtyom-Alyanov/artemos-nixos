@@ -13,6 +13,7 @@ in
     enable          = mkEnableOption "Enable NVIDIA drivers";
     useLibVADriver  = mkEnableOption "Use the libva NVIDIA driver for video acceleration";
     earlyProbe      = mkEnableOption "Enable early probing of NVIDIA devices";
+    openDrivers     = mkEnableOption "Use the official open NVIDIA drivers";
   };
 
   config = mkIf moduleConfig.enable {
@@ -35,6 +36,7 @@ in
     hardware = {
       nvidia = {
         enabled = true;
+        open = moduleConfig.openDrivers;
         powerManagement.enable = true;
         modesetting.enable = true;
 
