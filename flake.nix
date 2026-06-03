@@ -1,4 +1,6 @@
 {
+  description = "Flake with Artemos NixOS configurations";
+
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=master";
     flake-parts.url = "github:hercules-ci/flake-parts";
