@@ -1,13 +1,19 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=master";
+    flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
-  outputs = { self, nixpkgs }: {
+  outputs = { flake-parts, ... } @ inputs:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [ "x86_64-linux" ];
 
-    packages.x86_64-linux.hello = nixpkgs.legacyPackages.x86_64-linux.hello;
+      imports = [
+        ./system
+      ];
 
-    packages.x86_64-linux.default = self.packages.x86_64-linux.hello;
-
-  };
+      perSystem = { config, pkgs, system, ... }: {
+        formatter = pkgs.nixpkgs-fmt;
+      };
+    };
 }
