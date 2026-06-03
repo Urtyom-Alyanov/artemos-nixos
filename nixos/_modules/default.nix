@@ -30,8 +30,8 @@ let
       mPath = lib.splitString "/" relPath;
       
       helpers = {
-        modulePath = [ "modules" ] ++ mPath;
-        mkOptions = options: lib.setAttrByPath ([ "modules" ] ++ mPath) options;
+        modulePath = [ baseModulePath ] ++ mPath;
+        mkOptions = options: lib.setAttrByPath ([ baseModulePath ] ++ mPath) options;
         moduleConfig = lib.attrByPath helpers.modulePath {} config;
       };
     in
