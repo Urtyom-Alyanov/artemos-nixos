@@ -9,7 +9,7 @@
       systems = [ "x86_64-linux" ];
 
       imports = [
-        ./system
+        ./nixos
       ];
 
       perSystem = { config, pkgs, system, ... }: {
