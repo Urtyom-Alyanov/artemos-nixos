@@ -30,7 +30,7 @@ let
       
       helpers = {
         modulePath = [ "modules" ] ++ mPath;
-        createOptions = options: lib.setAttrByPath ([ "modules" ] ++ mPath) options;
+        mkOptions = options: lib.setAttrByPath ([ "modules" ] ++ mPath) options;
         moduleConfig = lib.attrByPath helpers.modulePath {} config;
       };
     in

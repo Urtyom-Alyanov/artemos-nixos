@@ -1,4 +1,4 @@
-{ moduleConfig, createOptions, ... }:
+{ moduleConfig, mkOptions, ... }:
 { pkgs, config, lib, ... }:
 
 with lib;
@@ -9,7 +9,7 @@ let
   ] ++ (lib.optional moduleConfig.useLibVADriver nvidia-vaapi-driver);
 in
 {
-  options = createOptions {
+  options = mkOptions {
     enable          = mkEnableOption "Enable NVIDIA drivers";
     useLibVADriver  = mkEnableOption "Use the libva NVIDIA driver for video acceleration";
     earlyProbe      = mkEnableOption "Enable early probing of NVIDIA devices";
