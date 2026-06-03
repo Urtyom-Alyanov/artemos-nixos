@@ -1,6 +1,5 @@
 { mkOptions, moduleConfig, ... }:
 { lib, ... }:
-{}:
 
 with lib;
 
@@ -19,7 +18,7 @@ with lib;
       default = 330;
       description = "The VAD grace period for the RNNoise plugin, in milliseconds.";
     };
-    
+
     retroactiveGrace = mkOption {
       type = types.int;
       default = 0;
