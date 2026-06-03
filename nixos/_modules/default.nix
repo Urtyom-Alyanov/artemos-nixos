@@ -3,7 +3,7 @@
 let
   baseDir = toString ./.;
 
-  mkNixOSMOdules = dir:
+  mkNixOSModules = dir:
     let
       contents = builtins.readDir dir;
       
@@ -13,28 +13,33 @@ let
           CameFromModule = (type == "regular" && name == "default.nix" && dir != ./.);
         in
         if type == "directory" then
-          mkNixOSMOdules path
+          mkNixOSModules path
         else if CameFromModule then
-          let
-            relativeDir = lib.strings.removePrefix "${baseDir}/" (toString dir);
-            subPath = lib.strings.splitString "/" relativeDir;
-
-            modulePath = [ "modules" ] ++ subPath;
-            createOptions = options:
-              lib.setAttrByPath modulePath options;
-            moduleConfig = lib.attrsets.attrByPath modulePath {} config;
-          in
-          [ (import path (args // {
-              inherit config lib createOptions moduleConfig modulePath;
-            }))
-          ]
+          [ path ]
         else
           [ ]
       ) contents;
     in
       lib.flatten files;
 
+  modulePaths = mkNixOSModules ./.;
+
+  makeArgsForModule = path: { config, ... }:
+    let
+      dir = builtins.dirOf path;
+      relativeDir = lib.strings.removePrefix "${baseDir}/" (toString dir);
+      subPath = lib.strings.splitString "/" relativeDir;
+      modulePath = [ "modules" ] ++ subPath;
+    in {
+      key = toString path; 
+      _module.args = {
+        inherit modulePath;
+        moduleConfig = lib.attrsets.attrByPath modulePath {} config;
+        createOptions = options: lib.setAttrByPath modulePath options;
+      };
+    };
+
 in
 {
-  imports = mkNixOSMOdules ./.;
+  imports = mkNixOSModules ./. ++ (map makeArgsForModule modulePaths);
 }
