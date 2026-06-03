@@ -13,11 +13,13 @@ with lib;
       default = 75.0;
       description = "The VAD threshold for the RNNoise plugin, in percentage.";
     };
+
     gracePeriod = mkOption {
       type = types.int;
       default = 330;
       description = "The VAD grace period for the RNNoise plugin, in milliseconds.";
     };
+    
     retroactiveGrace = mkOption {
       type = types.int;
       default = 0;
