@@ -1,6 +1,12 @@
+<div align="center">
+
+<img src="./docs/nixos-artemos.svg" height="300">
+
 # Artemos NixOS configuration
 
 Очередной flake с конфигурацией для NixOS
+
+</div>
 
 ## В наличии:
 - Ядро от CachyOS для ИХРОВОЙ произовдительности
