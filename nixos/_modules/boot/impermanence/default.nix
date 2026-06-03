@@ -6,7 +6,6 @@ with lib;
 let
   volumeSubmodule = types.submodule
     {
-      description = "A volume to use for the impermanence module.";
       options = {
         device = mkOption {
           type = types.str;
