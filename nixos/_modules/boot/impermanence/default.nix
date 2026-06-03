@@ -42,17 +42,18 @@ in
   };
 
   config =
-    with moduleConfig;
-    mkIf enable { 
+    mkIf moduleConfig.enable { 
       boot.initrd.systemd.services.rollback = {
         description = "Rollback BTRFS subvolumes";
 
         unitConfig.DefaultDependencies = "no";
 
-        after = map volumes
-          (volume: "${builtins.replaceStrings ["/dev/" "-" "/"] ["dev-" "\\x2d" "-"] volume.device}.device");
-        requires = map volumes
-          (volume: "${builtins.replaceStrings ["/dev/" "-" "/"] ["dev-" "\\x2d" "-"] volume.device}.device");
+        after = map
+          (volume: "${builtins.replaceStrings ["/dev/" "-" "/"] ["dev-" "\\x2d" "-"] volume.device}.device")
+          moduleConfig.volumes;
+        requires = map
+          (volume: "${builtins.replaceStrings ["/dev/" "-" "/"] ["dev-" "\\x2d" "-"] volume.device}.device")
+          moduleConfig.volumes;
 
         wantedBy = [ "initrd.target" ];
         before = [ "sysroot.mount" ];
@@ -65,7 +66,7 @@ in
 
             mkdir -p /run/rollback
 
-            ${lib.concatStringsSep "\n" (map (device: rollbackScriptTail device) volumes)}
+            ${lib.concatStringsSep "\n" (map (volume: rollbackScriptTail volume) moduleConfig.volumes)}
           '';
             in "${rollbackScript}";
         };
