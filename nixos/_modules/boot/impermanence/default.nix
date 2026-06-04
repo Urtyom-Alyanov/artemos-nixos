@@ -8,27 +8,6 @@
   ...
 }:
 with lib; let
-  volumeSubmodule = types.submodule {
-    options = {
-      device = mkOption {
-        type = types.str;
-        description = "The device to use for the impermanence module.";
-      };
-
-      blankSubvolume = mkOption {
-        type = types.str;
-        default = "@blank";
-        description = "The blank subvolume to use for the impermanence module.";
-      };
-
-      subvolume = mkOption {
-        type = types.str;
-        default = "@";
-        description = "The root subvolume to use for the impermanence module.";
-      };
-    };
-  };
-
   rollbackScriptTail = {
     device,
     blankSubvolume,
@@ -45,7 +24,26 @@ in {
 
     volumes = mkOption {
       description = "The volumes to use for the impermanence module.";
-      type = types.listOf volumeSubmodule;
+      type = types.listOf (types.submodule {
+        options = {
+          device = mkOption {
+            type = types.str;
+            description = "The device to use for the impermanence module.";
+          };
+
+          blankSubvolume = mkOption {
+            type = types.str;
+            default = "@blank";
+            description = "The blank subvolume to use for the impermanence module.";
+          };
+
+          subvolume = mkOption {
+            type = types.str;
+            default = "@";
+            description = "The root subvolume to use for the impermanence module.";
+          };
+        };
+      });
     };
   };
 
