@@ -5,7 +5,7 @@ with lib;
 
 {
   options = mkOptions {
-    enable = mkEnableOption "Enable silent boot";
+    enable =   mkEnableOption "Enable silent boot";
     plymouth = mkEnableOption "Use Plymouth for the boot splash screen";
   };
 

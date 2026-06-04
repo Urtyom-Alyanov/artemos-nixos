@@ -14,8 +14,19 @@
         ./nixos
       ];
 
-      perSystem = { config, pkgs, system, ... }: {
-        formatter = pkgs.nixpkgs-fmt;
+      perSystem = { pkgs, ... }: {
+        formatter = pkgs.nixfmt;
+
+        devShells.default = pkgs.mkShell {
+          nativeBuildInputs = [
+            pkgs.nixfmt-rfc-style
+            pkgs.nixd
+          ];
+
+          shellHook = ''
+            echo "Welcome to the Artemos NixOS configuration flake development shell!"
+          '';
+        };
       };
     };
 }
