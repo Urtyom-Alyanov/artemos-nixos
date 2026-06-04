@@ -20,15 +20,17 @@
 
       specialArgs = {inherit inputs;};
 
-      modules = [
-        {
-          networking.hostName = hostName;
-        }
-        ./_common
-        ./_modules
-        ./${hostName}
-        nixosHomeShared
-      ] ++ nixosHomeModules;
+      modules =
+        [
+          {
+            networking.hostName = hostName;
+          }
+          ./_common
+          ./_modules
+          ./${hostName}
+          nixosHomeShared
+        ]
+        ++ nixosHomeModules;
     };
 in {
   flake.nixosConfigurations = lib.attrsets.mapAttrs (name: _: mkHost name) hostNames;
