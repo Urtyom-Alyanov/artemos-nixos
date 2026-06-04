@@ -24,6 +24,7 @@
     ];
   };
 
+  # ебля с дисками
   modules.space.disko = {
     enable = true;
 

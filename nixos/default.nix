@@ -1,6 +1,8 @@
 {
   lib,
   inputs,
+  nixosHomeModules,
+  nixosHomeShared,
   ...
 }: let
   hostsDir = ./.;
@@ -25,7 +27,8 @@
         ./_common
         ./_modules
         ./${hostName}
-      ];
+        nixosHomeShared
+      ] ++ nixosHomeModules;
     };
 in {
   flake.nixosConfigurations = lib.attrsets.mapAttrs (name: _: mkHost name) hostNames;
