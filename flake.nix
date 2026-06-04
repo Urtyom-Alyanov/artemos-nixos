@@ -8,6 +8,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {flake-parts, ...}:
@@ -22,6 +26,7 @@
       perSystem = {pkgs, ...}: let
         formatterPkg = pkgs.alejandra;
         languageServerPkg = pkgs.nixd;
+        disko = pkgs.disko;
       in {
         formatter = formatterPkg;
 
@@ -29,6 +34,7 @@
           nativeBuildInputs = [
             formatterPkg
             languageServerPkg
+            disko
           ];
 
           shellHook = ''
