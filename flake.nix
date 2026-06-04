@@ -6,21 +6,24 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
-  outputs = { flake-parts, ... } @ inputs:
-    flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [ "x86_64-linux" ];
+  outputs = {flake-parts, ...} @ inputs:
+    flake-parts.lib.mkFlake {inherit inputs;} {
+      systems = ["x86_64-linux"];
 
       imports = [
         ./nixos
       ];
 
-      perSystem = { pkgs, ... }: {
-        formatter = pkgs.nixfmt;
+      perSystem = {pkgs, ...}: let
+        formatterPkg = pkgs.alejandra;
+        languageServerPkg = pkgs.nixd;
+      in {
+        formatter = formatterPkg;
 
         devShells.default = pkgs.mkShell {
           nativeBuildInputs = [
-            pkgs.nixfmt-rfc-style
-            pkgs.nixd
+            formatterPkg
+            languageServerPkg
           ];
 
           shellHook = ''

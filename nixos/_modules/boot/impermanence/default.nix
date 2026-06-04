@@ -1,39 +1,45 @@
-{ moduleConfig, mkOptions, ... }:
-{ lib, pkgs, ... }:
+{
+  moduleConfig,
+  mkOptions,
+  ...
+}: {
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
+  volumeSubmodule = types.submodule {
+    options = {
+      device = mkOption {
+        type = types.str;
+        description = "The device to use for the impermanence module.";
+      };
 
-with lib;
+      blankSubvolume = mkOption {
+        type = types.str;
+        default = "@blank";
+        description = "The blank subvolume to use for the impermanence module.";
+      };
 
-let
-  volumeSubmodule = types.submodule
-    {
-      options = {
-        device = mkOption {
-          type = types.str;
-          description = "The device to use for the impermanence module.";
-        };
-
-        blankSubvolume = mkOption {
-          type = types.str;
-          default = "@blank";
-          description = "The blank subvolume to use for the impermanence module.";
-        };
-
-        subvolume = mkOption {
-          type = types.str;
-          default = "@";
-          description = "The root subvolume to use for the impermanence module.";
-        };
+      subvolume = mkOption {
+        type = types.str;
+        default = "@";
+        description = "The root subvolume to use for the impermanence module.";
       };
     };
-  
-  rollbackScriptTail = { device, blankSubvolume, subvolume }: ''
+  };
+
+  rollbackScriptTail = {
+    device,
+    blankSubvolume,
+    subvolume,
+  }: ''
     mount ${device} /run/rollback
     btrfs subvolume delete /run/rollback/${subvolume} 2>/dev/null || true
     btrfs subvolume snapshot /run/rollback/${blankSubvolume} /run/rollback/${subvolume}
     umount /run/rollback
   '';
-in
-{
+in {
   options = mkOptions {
     enable = mkEnableOption "Enable the impermanence module";
 
@@ -43,35 +49,39 @@ in
     };
   };
 
-  config =
-    mkIf moduleConfig.enable { 
-      boot.initrd.systemd.services.rollback = {
-        description = "Rollback BTRFS subvolumes";
+  config = mkIf moduleConfig.enable {
+    boot.initrd.systemd.services.rollback = {
+      description = "Rollback BTRFS subvolumes";
 
-        unitConfig.DefaultDependencies = "no";
+      unitConfig.DefaultDependencies = "no";
 
-        after = map
-          (volume: "${builtins.replaceStrings ["/dev/" "-" "/"] ["dev-" "\\x2d" "-"] volume.device}.device")
-          moduleConfig.volumes;
-        requires = map
-          (volume: "${builtins.replaceStrings ["/dev/" "-" "/"] ["dev-" "\\x2d" "-"] volume.device}.device")
-          moduleConfig.volumes;
+      after =
+        map (
+          volume: "${builtins.replaceStrings ["/dev/" "-" "/"] ["dev-" "\\x2d" "-"] volume.device}.device"
+        )
+        moduleConfig.volumes;
+      requires =
+        map (
+          volume: "${builtins.replaceStrings ["/dev/" "-" "/"] ["dev-" "\\x2d" "-"] volume.device}.device"
+        )
+        moduleConfig.volumes;
 
-        wantedBy = [ "initrd.target" ];
-        before = [ "sysroot.mount" ];
+      wantedBy = ["initrd.target"];
+      before = ["sysroot.mount"];
 
-        serviceConfig = {
-          Type = "oneshot";
+      serviceConfig = {
+        Type = "oneshot";
 
-          ExecStart = let rollbackScript = pkgs.writeScript "rollback-script" ''
+        ExecStart = let
+          rollbackScript = pkgs.writeScript "rollback-script" ''
             #!${pkgs.stdenv.shell}
 
             mkdir -p /run/rollback
 
             ${lib.concatStringsSep "\n" (map (volume: rollbackScriptTail volume) moduleConfig.volumes)}
           '';
-            in "${rollbackScript}";
-        };
+        in "${rollbackScript}";
       };
     };
+  };
 }

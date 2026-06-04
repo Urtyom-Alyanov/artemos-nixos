@@ -1,4 +1,4 @@
-{ ... }: {
+{...}: {
   # невидия драйвера
   modules.video.nvidia = {
     enable = true;
