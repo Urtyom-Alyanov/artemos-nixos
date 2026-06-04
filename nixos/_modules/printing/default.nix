@@ -11,7 +11,7 @@ with lib; {
   };
 
   config = mkIf moduleConfig.enable {
-    services.printing.enable = {
+    services.printing = {
       enable = true;
       listenAddresses = ["*:631"];
       allowFrom = ["all"];
