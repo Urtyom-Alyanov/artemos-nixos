@@ -3,28 +3,27 @@
   "nix.formatterPath": "alejandra",
   
   "nix.serverPath": "nixd",
-  "nixEnvSelector.useFlakes": true,
 
   "nix.serverSettings": {
     "nixd": {
       "nixpkgs": {
-        "expr": "import (builtins.getFlake \"${workspaceRoot}\").inputs.nixpkgs { }"
+        "expr": "import (builtins.getFlake \"${workspaceFolder}\").inputs.nixpkgs { }"
       },
       "formatting": {
-        "command": [ "nixfmt" ]
+        "command": [ "alejandra", "." ]
       },
       "flakes": {
-        "expr": "builtins.getFlake \"${workspaceRoot}\""
+        "expr": "builtins.getFlake \"${workspaceFolder}\""
       },
       "options": {
         "nixos": {
-          "expr": "(builtins.getFlake \"${workspaceRoot}\").nixosConfigurations.SHIZZA.options"
+          "expr": "(builtins.getFlake \"${workspaceFolder}\").nixosConfigurations.SHIZZA.options"
         },
         "flake-parts": {
-          "expr": "(builtins.getFlake \"${workspaceRoot}\").debug.options"
+          "expr": "(builtins.getFlake \"${workspaceFolder}\").debug.options" 
         },
         "home-manager": {
-          "expr": "(builtins.getFlake \"${workspaceRoot}\").inputs.home-manager.nixosModules.home-manager.options"
+          "expr": "(builtins.getFlake \"${workspaceFolder}\").nixosConfigurations.SHIZZA.options.home-manager"
         }
       }
     }
@@ -32,5 +31,9 @@
   "[nix]": {
     "editor.defaultFormatter": "jnahmias.nix-ide",
     "editor.formatOnSave": true
-  }
+  },
+
+  "nixEnvSelector.useFlakes": true,
+  "nixEnvSelector.nixFile": "${workspaceFolder}/flake.nix",
+  "nixEnvSelector.flakeShell": "default"
 }

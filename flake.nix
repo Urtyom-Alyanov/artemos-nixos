@@ -2,16 +2,17 @@
   description = "Flake with Artemos NixOS configurations";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=master";
+    nixpkgs.url = "github:nixos/nixpkgs/master";
     flake-parts.url = "github:hercules-ci/flake-parts";
-    home-manager.url = {
+    home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = {flake-parts, ...} @ inputs:
+  outputs = inputs@{flake-parts, ...}:
     flake-parts.lib.mkFlake {inherit inputs;} {
+      debug = true;
       systems = ["x86_64-linux"];
 
       imports = [
