@@ -1,8 +1,17 @@
-{inputs, ...}: {
+{
+  self,
+  inputs,
+  ...
+}: {
   imports = [
     inputs.home-manager.nixosModules.home-manager
     inputs.disko.nixosModules.default
   ];
+
+  _module.args = {
+    secretsDir = "${self}/secrets/agenix";
+    hashedDir = "${self}/secrets/hashed";
+  };
 
   modules.boot.silent = {
     enable = true;
