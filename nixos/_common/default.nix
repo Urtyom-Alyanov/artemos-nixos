@@ -18,6 +18,18 @@
     plymouth = true;
   };
 
+  modules.i18n.russian = {
+    enable = true;
+    useCUserDirs = true;
+  };
+
+  modules.nix = {
+    garbage-collection.enable = true;
+    linker.enable = true;
+    cache.enable = true;
+    features.enable = true;
+  };
+
   modules.audio = {
     low-latency.enable = true;
     disable-hsp-hfp.enable = true;
@@ -35,7 +47,11 @@
     };
   };
 
-  time.timeZone = "Europe/Moscow";
+  # мало памяти не бывает
+  zramSwap = {
+    algorithm = "zstd";
+    enable = true;
+  };
 
   home-manager = {
     useGlobalPkgs = true;
