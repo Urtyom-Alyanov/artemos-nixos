@@ -1,5 +1,7 @@
-{...}: {
-  time.timeZone = "Europe/Moscow";
+{inputs, ...}: {
+  imports = [
+    inputs.home-manager.nixosModules.home-manager
+  ];
 
   modules.boot.silent = {
     enable = true;
@@ -10,5 +12,23 @@
     low-latency.enable = true;
     disable-hsp-hfp.enable = true;
     noise-suppression.enable = true;
+  };
+
+  modules.printing = {
+    enable = true;
+    avahiService = true;
+    saneService = true;
+
+    hp = {
+      enable = true;
+      withProprietaryComponent = true;
+    };
+  };
+
+  time.timeZone = "Europe/Moscow";
+
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
   };
 }
