@@ -27,7 +27,7 @@
       systemBtrfsPartition = {
         createPersistSubvol = true;
         swapFile = "8G";
-        homes = [ "artemos" ];
+        homes = ["artemos"];
       };
     };
   };
