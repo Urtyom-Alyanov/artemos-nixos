@@ -8,6 +8,8 @@
     inputs.disko.nixosModules.default
   ];
 
+  system.stateVersion = "26.11";
+
   _module.args = {
     secretsDir = "${self}/secrets/agenix";
     hashedDir = "${self}/secrets/hashed";
@@ -46,6 +48,8 @@
       withProprietaryComponent = true;
     };
   };
+
+  modules.themization.fonts.enable = true;
 
   # мало памяти не бывает
   zramSwap = {
