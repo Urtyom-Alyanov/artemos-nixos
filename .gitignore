@@ -1,1 +1,11 @@
+# Пусть не срётся в git
 .direnv/
+
+# Пусть срёт только age файлы в git
+secrets/agenix/**/*
+!secrets/agenix/**/*.age
+!secrets/agenix/
+!secrets/agenix/secrets.nix
+!secrets/agenix/**/
+
+installer-key

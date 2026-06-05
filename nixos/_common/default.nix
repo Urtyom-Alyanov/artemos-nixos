@@ -6,14 +6,25 @@
   imports = [
     inputs.home-manager.nixosModules.home-manager
     inputs.disko.nixosModules.default
+    inputs.agenix.nixosModules.default
   ];
-
-  system.stateVersion = "26.11";
 
   _module.args = {
     secretsDir = "${self}/secrets/agenix";
     hashedDir = "${self}/secrets/hashed";
   };
+
+  modules.services.agenix = {
+    enable = true;
+    addInstallerKey = true;
+  };
+
+  services.openssh = {
+    enable = true;
+  };
+
+  # менять только при чистой установке
+  system.stateVersion = "26.11";
 
   modules.boot.silent = {
     enable = true;

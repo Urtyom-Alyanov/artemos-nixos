@@ -10,7 +10,7 @@
         "expr": "import (builtins.getFlake \"${workspaceFolder}\").inputs.nixpkgs { }"
       },
       "formatting": {
-        "command": [ "alejandra", "." ]
+        "command": [ "alejandra" ]
       },
       "flakes": {
         "expr": "builtins.getFlake \"${workspaceFolder}\""
@@ -24,12 +24,15 @@
         },
         "home-manager": {
           "expr": "(builtins.getFlake \"${workspaceFolder}\").nixosConfigurations.SHIZZA.options.home-manager"
+        },
+        "home-manager-standalone": {
+          "expr": "(builtins.getFlake \"${workspaceFolder}\").homeConfigurations.artemos.options"
         }
       }
     }
   },
   "[nix]": {
-    "editor.defaultFormatter": "jnahmias.nix-ide",
+    // "editor.defaultFormatter": "jnoortheen.nix-ide",
     "editor.formatOnSave": true
   },
 

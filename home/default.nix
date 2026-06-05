@@ -36,6 +36,8 @@
         ./_common/manager
         ./_modules
         data.managerModule
+        {home.username = userName;}
+        {home.homeDirectory = "/home/${userName}";}
       ];
     };
 
@@ -43,7 +45,11 @@
     imports = lib.optional data.hasSystem data.systemModule;
 
     home-manager.users."${userName}" = lib.mkIf data.hasManager {
-      imports = [data.managerModule];
+      imports = [
+        data.managerModule
+        {home.username = userName;}
+        {home.homeDirectory = "/home/${userName}";}
+      ];
     };
   };
 
