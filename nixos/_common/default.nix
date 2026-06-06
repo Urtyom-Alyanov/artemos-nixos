@@ -72,6 +72,8 @@ in {
 
   modules.boot.systemd-boot.enable = true;
 
+  modules.boot.persistence.enable = true;
+
   modules.i18n.russian = {
     enable = true;
     useCUserDirs = true;
