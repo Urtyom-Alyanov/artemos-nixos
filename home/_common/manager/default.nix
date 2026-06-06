@@ -18,10 +18,10 @@ in {
   homeModules.xdg.autostart = {
     enable = true;
     entries = {
-      throne = {
-        exec = "${pkgs.throne}/share/throne/Throne";
-        flags = "-tray -appdata";
-      };
+      # throne = {
+      #   exec = "${pkgs.throne}/share/throne/Throne";
+      #   flags = "-tray -appdata";
+      # };
       steam = {
         exec = "${pkgs.steam}/bin/steam";
         flags = "-silent";
