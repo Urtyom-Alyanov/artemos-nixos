@@ -48,7 +48,6 @@ in {
 
     hardware = {
       nvidia = {
-        enabled = true;
         open = moduleConfig.openDrivers;
         powerManagement.enable = true;
         modesetting.enable = true;
