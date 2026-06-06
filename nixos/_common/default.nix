@@ -2,7 +2,10 @@
   self,
   inputs,
   ...
-}: {
+}: let
+  secretsDir = "${self}/secrets/agenix";
+  hashedDir = "${self}/secrets/hashed";
+in {
   imports = [
     inputs.home-manager.nixosModules.home-manager
     inputs.disko.nixosModules.default
@@ -10,11 +13,20 @@
   ];
 
   _module.args = {
-    secretsDir = "${self}/secrets/agenix";
-    hashedDir = "${self}/secrets/hashed";
+    inherit secretsDir hashedDir;
   };
 
-  modules.services.agenix = {
+  modules.security.sudo = {
+    enable = true;
+    dontAssertWheelPassword = true;
+  };
+
+  modules.network.proxy.mihomo = {
+    enable = true;
+    ageEncryptedConfig = "${secretsDir}/mihomo.yaml.age";
+  };
+
+  modules.encrypting.agenix = {
     enable = true;
     addInstallerKey = true;
   };
@@ -71,6 +83,6 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = {inherit inputs;};
+    extraSpecialArgs = {inherit inputs secretsDir hashedDir;};
   };
 }

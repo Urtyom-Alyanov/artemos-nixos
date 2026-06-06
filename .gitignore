@@ -1,5 +1,7 @@
 # Пусть не срётся в git
 .direnv/
+result
+result-*
 
 # Пусть срёт только age файлы в git
 secrets/agenix/**/*
