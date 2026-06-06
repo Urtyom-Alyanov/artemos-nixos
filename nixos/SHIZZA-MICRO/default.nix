@@ -1,4 +1,8 @@
 {...}: {
+  imports = [
+    ./hardware.nix
+  ];
+
   # стирка при загрузке
   modules.boot.impermanence = {
     enable = true;

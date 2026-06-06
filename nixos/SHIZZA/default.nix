@@ -1,4 +1,8 @@
 {...}: {
+  imports = [
+    ./hardware.nix
+  ];
+
   # невидия драйвера
   modules.video.nvidia = {
     enable = true;
