@@ -30,4 +30,10 @@
       }
     ];
   };
+
+  modules.space.user-bindings.users."artemos" = {
+    games = true;
+    persistDirectory = true;
+    systemConfiguration = true;
+  };
 }

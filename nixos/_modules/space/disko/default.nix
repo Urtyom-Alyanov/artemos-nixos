@@ -172,14 +172,20 @@ in {
                         "@nix" = {
                           mountpoint = "/nix";
                           mountOptions = genericMountOptions;
+
+                          # priority = 1;
                         };
                         "@" = {
                           mountpoint = "/";
                           mountOptions = genericMountOptions;
+
+                          # priority = 0;
                         };
                         "@var" = {
                           mountpoint = "/var";
                           mountOptions = nocowMountOptions;
+
+                          # priority = 1;
                         };
                       }
                       // (optionalAttrs hasSystemPersist {
@@ -187,6 +193,8 @@ in {
                         "@persist" = {
                           mountpoint = "/persist";
                           mountOptions = genericMountOptions;
+
+                          # priority = 1;
                         };
                       })
                       // (optionalAttrs (swapSize != null) {
@@ -195,26 +203,39 @@ in {
                           swap = {
                             swapfile.size = swapSize;
                           };
+
+                          # priority = 1;
                         };
                       })
                       // (foldl' (acc: userName:
                         acc
                         // {
-                          "@${userName}_home" = {
-                            mountpoint = "/home/${userName}";
-                            mountOptions = genericMountOptions;
-                          };
+                          # "@${userName}_home" = { мешать только будет
+                          #   mountpoint = "/home/${userName}";
+                          #   # priority = 1000;
+                          #   mountOptions = genericMountOptions;
+                          #   postMountCommands = ''
+                          #     mkdir -p /mnt/home/${userName}/.local
+                          #     chown -R ${userName}:100 /mnt/home/${userName}
+                          #   '';
+                          # };
                           "@${userName}_local" = {
                             mountpoint = "/home/${userName}/.local";
                             mountOptions = genericMountOptions;
+
+                            # priority = 1001;
                           };
                           "@${userName}_share" = {
                             mountpoint = "/home/${userName}/.local/share";
                             mountOptions = nocowMountOptions;
+
+                            # priority = 1002;
                           };
                           "@${userName}_steam" = {
                             mountpoint = "/home/${userName}/.local/share/Steam";
                             mountOptions = nocowMountOptions;
+
+                            # priority = 1003;
                           };
                         }) {}
                       moduleConfig.bootDisk.systemBtrfsPartition.homes);
@@ -249,18 +270,26 @@ in {
                       "@" = {
                         mountpoint = "/home/${userName}";
                         mountOptions = genericMountOptions;
+
+                        # priority = 1000;
                       };
                       "@local" = {
                         mountpoint = "/home/${userName}/.local";
                         mountOptions = genericMountOptions;
+
+                        # priority = 1001;
                       };
                       "@share" = {
                         mountpoint = "/home/${userName}/.local/share";
                         mountOptions = nocowMountOptions;
+
+                        # priority = 1002;
                       };
                       "@steam" = {
                         mountpoint = "/home/${userName}/.local/share/Steam";
                         mountOptions = nocowMountOptions;
+
+                        # priority = 1003;
                       };
                     }
                     // (optionalAttrs userCfg.createPersistSubvol {
@@ -268,6 +297,8 @@ in {
                       "@persist" = {
                         mountpoint = "/persist/home/${userName}";
                         mountOptions = genericMountOptions;
+
+                        # priority = 1000;
                       };
                     });
                 };
@@ -292,5 +323,24 @@ in {
         lib.flatten
         lib.listToAttrs
       ]);
+
+    systemd.tmpfiles.rules = let
+      makeUserRules = userName: let
+        userUid =
+          if (config.users.users ? ${userName} && config.users.users.${userName} ? uid)
+          then toString config.users.users.${userName}.uid
+          else userName;
+      in [
+        "d /home/${userName} 0755 ${userUid} 100 - -"
+        "d /home/${userName}/.local 0755 ${userUid} 100 - -"
+        "d /home/${userName}/.local/share 0755 ${userUid} 100 - -"
+        "d /home/${userName}/.local/share/Steam 0755 ${userUid} 100 - -"
+      ];
+
+      allSharedHomes = moduleConfig.bootDisk.systemBtrfsPartition.homes;
+      allDedicatedHomes = attrNames moduleConfig.homeDisks;
+      allUsers = unique (allSharedHomes ++ allDedicatedHomes);
+    in
+      lib.flatten (map makeUserRules allUsers);
   };
 }

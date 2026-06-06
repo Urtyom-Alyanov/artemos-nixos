@@ -12,6 +12,7 @@ in {
     inputs.disko.nixosModules.default
     inputs.agenix.nixosModules.default
     inputs.lanzaboote.nixosModules.lanzaboote
+    inputs.impermanence.nixosModules.default
   ];
 
   _module.args = {
