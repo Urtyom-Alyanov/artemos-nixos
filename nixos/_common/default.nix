@@ -32,6 +32,9 @@ in {
 
   modules.network.kdeconnect.enable = true;
 
+  modules.desktop.login.kde-login.enable = true;
+  modules.desktop.desktop-environments.kde-plasma = true;
+
   modules.security.sudo = {
     enable = true;
     dontAssertWheelPassword = true;
