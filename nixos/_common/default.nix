@@ -33,7 +33,9 @@ in {
   modules.network.kdeconnect.enable = true;
 
   modules.desktop.login.kde-login.enable = true;
-  modules.desktop.desktop-environments.kde-plasma = true;
+  modules.desktop.desktop-environments.kde-plasma.enable = true;
+
+  modules.desktop.wayland.enable = true;
 
   modules.security.sudo = {
     enable = true;
