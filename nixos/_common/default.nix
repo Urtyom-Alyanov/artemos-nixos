@@ -11,6 +11,7 @@ in {
     inputs.home-manager.nixosModules.home-manager
     inputs.disko.nixosModules.default
     inputs.agenix.nixosModules.default
+    inputs.lanzaboote.nixosModules.lanzaboote
   ];
 
   _module.args = {

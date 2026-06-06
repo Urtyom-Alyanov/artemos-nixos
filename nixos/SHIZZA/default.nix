@@ -24,6 +24,8 @@
     ];
   };
 
+  modules.boot.cachyos-kernel.enable = true;
+
   # ебля с дисками
   modules.space.disko = {
     enable = true;
