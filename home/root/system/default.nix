@@ -1,3 +1,3 @@
 {hashedDir, ...}: {
-  users.users.root.hashedPassword = "${hashedDir}/root-password";
+  users.users.root.hashedPasswordFile = "${hashedDir}/root-password";
 }

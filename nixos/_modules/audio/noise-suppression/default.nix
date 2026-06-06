@@ -2,7 +2,11 @@
   mkOptions,
   moduleConfig,
   ...
-}: {lib, ...}:
+}: {
+  pkgs,
+  lib,
+  ...
+}:
 with lib; {
   options = mkOptions {
     enable = mkEnableOption "Enable noise suppression module";

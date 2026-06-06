@@ -26,6 +26,9 @@
           {
             networking.hostName = hostName;
           }
+          ({...}: {
+            nixpkgs.overlays = inputs.self.internal.allOverlays or [];
+          })
           ./_common
           ./_modules
           ./${hostName}

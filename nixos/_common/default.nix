@@ -69,6 +69,8 @@ in {
     plymouth = true;
   };
 
+  modules.boot.systemd-boot.enable = true;
+
   modules.i18n.russian = {
     enable = true;
     useCUserDirs = true;
@@ -78,6 +80,7 @@ in {
     garbage-collection.enable = true;
     linker.enable = true;
     cache.enable = true;
+    proprietary.enable = true;
     features.enable = true;
   };
 

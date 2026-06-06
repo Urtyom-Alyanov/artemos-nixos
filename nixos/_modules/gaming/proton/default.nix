@@ -16,7 +16,7 @@ with lib; {
         PROTON_USE_NTSYNC = "1";
         ENABLE_GAMESCOPE_WSI = "1";
       }
-      // (optionalAttrs enableWayland {
+      // (optionalAttrs moduleConfig.enableWayland {
         PROTON_ENABLE_WAYLAND = "1";
       });
   };
