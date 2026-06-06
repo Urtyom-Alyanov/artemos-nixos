@@ -1,6 +1,7 @@
 {
   lib,
   inputs,
+  self,
   ...
 }: let
   homeDir = ./.;
@@ -31,7 +32,7 @@
   mkStandaloneHome = userName: data:
     inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = inputs.nixpkgs.legacyPackages."x86_64-linux";
-      extraSpecialArgs = {inherit inputs;};
+      extraSpecialArgs = {inherit inputs self;};
       modules = [
         ./_common/manager
         ./_modules

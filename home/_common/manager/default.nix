@@ -1,11 +1,19 @@
 {
   inputs,
   pkgs,
+  self,
   ...
-}: {
+}: let
+  secretsDir = "${self}/secrets/agenix";
+  hashedDir = "${self}/secrets/hashed";
+in {
   imports = [
     inputs.agenix.homeManagerModules.default
   ];
+
+  _module.args = {
+    inherit secretsDir hashedDir;
+  };
 
   homeModules.xdg.autostart = {
     enable = true;

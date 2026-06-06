@@ -1,6 +1,7 @@
 {
   self,
   inputs,
+  pkgs,
   ...
 }: let
   secretsDir = "${self}/secrets/agenix";
@@ -14,6 +15,11 @@ in {
 
   _module.args = {
     inherit secretsDir hashedDir;
+  };
+
+  modules.security.gnupg = {
+    enable = true;
+    pinentryPackage = pkgs.pinentry-gnome3;
   };
 
   modules.security.sudo = {
@@ -104,6 +110,6 @@ in {
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = {inherit inputs secretsDir hashedDir;};
+    extraSpecialArgs = {inherit inputs self;};
   };
 }
