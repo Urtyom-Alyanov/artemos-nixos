@@ -23,6 +23,15 @@ in {
     pinentryPackage = pkgs.pinentry-gnome3;
   };
 
+  modules.virtualization.podman.enable = true;
+  modules.virtualization.qemu-kvm = {
+    enable = true;
+    enableVirtManager = true;
+  };
+  modules.virtualization.waydroid.enable = true;
+
+  modules.network.kdeconnect.enable = true;
+
   modules.security.sudo = {
     enable = true;
     dontAssertWheelPassword = true;

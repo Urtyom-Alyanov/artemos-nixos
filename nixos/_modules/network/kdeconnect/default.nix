@@ -9,8 +9,7 @@ with lib; {
   };
 
   config = mkIf moduleConfig.enable {
-    services.kdeconnect = {
-      indicator = true;
+    programs.kdeconnect = {
       enable = true;
     };
   };

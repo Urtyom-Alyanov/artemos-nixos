@@ -14,6 +14,7 @@
       "scanner"
       "lp"
       "podman"
+      "libvirtd"
     ];
 
     subUidRanges = [
