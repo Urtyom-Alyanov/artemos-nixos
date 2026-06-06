@@ -1,9 +1,11 @@
 {inputs, ...}: {
   flake.overlays.default = final: prev:
-    with inputs; {
-      niri = niri-wm.packages.x86_64-linux.niri-unstable;
-      lzbt = lanzaboote.packages.x86_64-linux.lzbt;
-      stub = lanzaboote.packages.x86_64-linux.stub;
+    with inputs; let
+      system = final.system;
+    in {
+      niri = niri-wm.packages.${system}.niri-unstable;
+      lzbt = lanzaboote.packages.${system}.lzbt;
+      stub = lanzaboote.packages.${system}.stub;
     };
 
   flake.internal.allOverlays = with inputs; [
@@ -15,6 +17,7 @@
   perSystem = {system, ...}: {
     _module.args.pkgs = import inputs.nixpkgs {
       inherit system;
+      config.allowUnfree = true;
       overlays = inputs.self.internal.allOverlays;
     };
   };
