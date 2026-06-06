@@ -7,7 +7,7 @@
   "nix.serverSettings": {
     "nixd": {
       "nixpkgs": {
-        "expr": "import (builtins.getFlake \"${workspaceFolder}\").inputs.nixpkgs { }"
+        "expr": "let flake = builtins.getFlake \"${workspaceFolder}\"; in import flake.inputs.nixpkgs { system = \"${builtins.currentSystem}\"; overlays = (flake.internal.allOverlays or []); }"
       },
       "formatting": {
         "command": [ "alejandra" ]

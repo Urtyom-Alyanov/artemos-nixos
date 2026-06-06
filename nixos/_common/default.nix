@@ -97,6 +97,7 @@ in {
 
   modules.gaming.steam = {
     enable = true;
+    useMillenium = true;
   };
 
   # мало памяти не бывает

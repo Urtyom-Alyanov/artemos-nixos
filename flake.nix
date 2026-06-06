@@ -21,6 +21,7 @@
       url = "github:yaxitech/ragenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    millennium.url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
   };
 
   outputs = inputs @ {flake-parts, ...}:
@@ -32,6 +33,7 @@
         inputs.home-manager.flakeModules.home-manager
         ./home
         ./nixos
+        ./pkgs
       ];
 
       perSystem = {pkgs, ...}: let
