@@ -21,6 +21,11 @@ in {
     dontAssertWheelPassword = true;
   };
 
+  modules.security.ssh = {
+    enable = true;
+    enableAgent = true;
+  };
+
   modules.network.proxy.mihomo = {
     enable = true;
     ageEncryptedConfig = "${secretsDir}/mihomo.yaml.age";
@@ -74,11 +79,27 @@ in {
 
   modules.themization.fonts.enable = true;
 
+  modules.gaming.proton = {
+    enable = true;
+    enableWayland = true;
+  };
+
+  modules.gaming.utils = {
+    enableGamemode = true;
+    enableGamescope = true;
+  };
+
+  modules.gaming.steam = {
+    enable = true;
+  };
+
   # мало памяти не бывает
   zramSwap = {
     algorithm = "zstd";
     enable = true;
   };
+
+  services.fwupd.enable = true;
 
   home-manager = {
     useGlobalPkgs = true;
