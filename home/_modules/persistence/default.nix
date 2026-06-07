@@ -22,7 +22,12 @@ with lib; {
       allowTrash = true;
 
       files = moduleConfig.files;
-      directories = moduleConfig.dirs;
+      directories =
+        moduleConfig.dirs
+        ++ [
+          ".nv"
+          ".wine"
+        ];
     };
   };
 }

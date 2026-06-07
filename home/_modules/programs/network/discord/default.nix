@@ -2,10 +2,18 @@
   mkOptions,
   moduleConfig,
   ...
-}: {lib, ...}:
-with lib; {
+}: {
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+with lib; let
+  persistEnable = config.modules.persistence.enable;
+in {
   options = mkOptions {
     enable = mkEnableOption "Enable nixcord with Equibop and custom theming";
+    autostart = mkEnableOption "Add Equibop to XDG autostart on login";
   };
 
   config = mkIf moduleConfig.enable {
@@ -32,6 +40,22 @@ with lib; {
           volumeBooster.enable = true;
         };
       };
+    };
+
+    homeModules.xdg.autostart = mkIf moduleConfig.autostart {
+      enable = true;
+      entries = {
+        discord = {
+          exec = "${pkgs.equibop}/bin/equibop";
+          flags = "--start-minimized";
+        };
+      };
+    };
+
+    homeModules.persistence = mkIf persistEnable {
+      dirs = [
+        ".config/equibop"
+      ];
     };
   };
 }
