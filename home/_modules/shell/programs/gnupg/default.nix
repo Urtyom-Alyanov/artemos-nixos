@@ -27,7 +27,7 @@ with lib; {
   };
 
   config = mkIf moduleConfig.enable {
-    age.secrets.gpg-key = {
+    age.secrets.gpg-private-key = {
       file = moduleConfig.gpgKeyFileAgeEncrypted;
       mode = "0600";
     };

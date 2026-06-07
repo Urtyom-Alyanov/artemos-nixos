@@ -7,7 +7,12 @@
   config,
   ...
 }:
-with lib; {
+with lib; let
+  blockHeader = name:
+    if hasPrefix "Host " name || hasPrefix "Match " name
+    then name
+    else "Host ${name}";
+in {
   options = mkOptions {
     enable = mkEnableOption "configure fastfetch";
     identityFileAgeEncrypted = mkOption {

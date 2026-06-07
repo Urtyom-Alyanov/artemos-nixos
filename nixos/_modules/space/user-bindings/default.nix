@@ -24,23 +24,23 @@ with lib; {
       home = "/home/${username}";
     in
       (optionalAttrs userCfg.games {
-        "${home}/.local/share/Games" = {
-          device = "${home}/Games";
-          fsType = "none";
+        "${home}/Games" = {
+          device = "${home}/.local/share/Games";
+          fsType = mkDefault "none";
           options = ["bind" "nofail"];
         };
       })
       // (optionalAttrs userCfg.systemConfiguration {
-        "/persist/etc/nixos" = {
-          device = "${home}/Documents/nixos";
-          fsType = "none";
+        "${home}/Documents/nixos" = {
+          device = "/persist/etc/nixos";
+          fsType = mkDefault "none";
           options = ["bind" "nofail"];
         };
       })
       // (optionalAttrs userCfg.persistDirectory {
-        "/persist/home/${username}" = {
-          device = "${home}/.persist";
-          fsType = "none";
+        "${home}/.persist" = {
+          device = "/persist/home/${username}";
+          fsType = mkDefault "none";
           options = ["bind" "nofail"];
         };
       });

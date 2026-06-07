@@ -320,7 +320,6 @@ in {
             name = "/persist/home/${userName}";
             value = {
               neededForBoot = true;
-              fsType = mkDefault "none"; # если что эта хуйя переопределит
             };
           }
         ]))
