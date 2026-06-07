@@ -317,7 +317,10 @@ in {
         (mapAttrsToList (userName: userCfg: [
           {
             name = "/persist/home/${userName}";
-            value = {neededForBoot = true;};
+            value = {
+              neededForBoot = true;
+              fsType = mkDefault "none"; # если что эта хуйя переопределит
+            };
           }
         ]))
         lib.flatten

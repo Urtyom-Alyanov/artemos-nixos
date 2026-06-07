@@ -132,6 +132,12 @@ in {
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = {inherit inputs self;};
+    sharedModules = with inputs; [
+      impermanence.homeManagerModules.impermanence
+    ];
+    extraSpecialArgs = {
+      inherit inputs self;
+      isStandalone = false;
+    };
   };
 }

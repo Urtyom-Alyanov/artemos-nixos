@@ -23,11 +23,11 @@
           "expr": "(builtins.getFlake \"${workspaceFolder}\").debug.options" 
         },
         "home-manager": {
-          "expr": "(builtins.getFlake \"${workspaceFolder}\").nixosConfigurations.SHIZZA.options.home-manager"
+          "expr": "(builtins.getFlake \"${workspaceFolder}\").nixosConfigurations.SHIZZA.options.home-manager.users.valueMeta.attrs.artemos.configuration.options"
         },
-        "home-manager-standalone": {
-          "expr": "(builtins.getFlake \"${workspaceFolder}\").homeConfigurations.artemos.options"
-        }
+        // "home-manager-standalone": {
+        //   "expr": "(builtins.getFlake \"${workspaceFolder}\").homeConfigurations.artemos.options"
+        // }
       }
     }
   },

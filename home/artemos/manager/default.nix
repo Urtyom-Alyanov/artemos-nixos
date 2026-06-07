@@ -1,4 +1,6 @@
-{secretsDir, ...}: {
+{secretsDir, ...}: let
+  email = "urtyomalyanov@gmail.com";
+in {
   homeModules = {
     shell = {
       eza.enable = true;
@@ -13,8 +15,8 @@
         helix.enable = true;
         hyfetch.enable = true;
         git = {
+          inherit email;
           enable = true;
-          email = "urtyomalyanov@gmail.com";
           username = "Urtyom-Alyanov";
         };
         ssh = {
@@ -28,7 +30,7 @@
         };
         gnupg = {
           enable = true;
-          gpgIDorEmail = "urtyomalyanov@gmail.com";
+          gpgIDorEmail = email;
           gpgKeyFileAgeEncrypted = "${secretsDir}/artemos.gpg.age";
         };
       };

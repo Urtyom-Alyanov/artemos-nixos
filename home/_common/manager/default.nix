@@ -2,18 +2,25 @@
   inputs,
   pkgs,
   self,
+  lib,
+  isStandalone,
   ...
 }: let
   secretsDir = "${self}/secrets/agenix";
   hashedDir = "${self}/secrets/hashed";
 in {
-  imports = [
-    inputs.agenix.homeManagerModules.default
+  imports = with inputs; [
+    agenix.homeManagerModules.default
   ];
 
   _module.args = {
     inherit secretsDir hashedDir;
   };
+
+  homeModules.persistence.enable =
+    if isStandalone
+    then lib.mkForce false
+    else lib.mkDefault false;
 
   homeModules.xdg.autostart = {
     enable = true;

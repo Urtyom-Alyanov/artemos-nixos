@@ -32,7 +32,10 @@
   mkStandaloneHome = userName: data:
     inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = inputs.nixpkgs.legacyPackages."x86_64-linux";
-      extraSpecialArgs = {inherit inputs self;};
+      extraSpecialArgs = {
+        inherit inputs self;
+        isStandalone = true;
+      };
       modules = [
         ./_common/manager
         ./_modules
