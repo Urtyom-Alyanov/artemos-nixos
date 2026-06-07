@@ -8,45 +8,8 @@
   ...
 }:
 with lib; let
-  voice-over-translation-addon = let
-    version = "1.11.5";
-    sha256 = "027sh74f3vm97ly5jlixzazprgbg9fv0zlcbyrq9s25yrdpm011g";
-  in
-    pkgs.nur.repos.rycee.firefox-addons.buildFirefoxXpiAddon {
-      pname = "voice-over-translation-addon";
-      inherit version sha256;
-      addonId = "vot-extension@firefox";
-
-      urls = [
-        "https://github.com/ilyhalight/voice-over-translation/releases/download/${version}/vot-extension-firefox-${version}.xpi"
-      ];
-      meta = with lib; {
-        homepage = "https://github.com/ilyhalight/voice-over-translation";
-        description = "A small extension that adds a Yandex Browser video translation to other browsers";
-        license = licenses.mit;
-        platforms = platforms.all;
-      };
-    };
-
-  vk-next-addon = let
-    version = "14.13.0";
-    sha256 = "01v88l9k361gb9s78k3j842wk0mwz1xfzhlk3cx4vjcnd4p6piwf";
-  in
-    pkgs.nur.repos.rycee.firefox-addons.buildFirefoxXpiAddon {
-      pname = "vk-next-addon";
-      inherit version sha256;
-      addonId = "addon@vknext.net";
-
-      urls = [
-        "https://addons.mozilla.org/firefox/downloads/file/4774336/vknext-${version}.xpi"
-      ];
-      meta = with lib; {
-        homepage = "https://vknext.net/vknext";
-        description = "Лучшее расширение для ВКонтакте с множеством функций, в числе которых есть эксклюзивные.";
-        license = licenses.unfree;
-        platforms = platforms.all;
-      };
-    };
+  voiceOverTranslationAddon = pkgs."voice-over-translation-addon";
+  vkNextAddon = pkgs."vk-next-addon";
 in {
   options = mkOptions {
     enable = mkEnableOption "Enable zen-browser (Firefox-based) with curated settings and addons";
@@ -133,13 +96,13 @@ in {
 
             "vot-extension@firefox" = {
               installation_mode = "force_installed";
-              install_url = "file://${voice-over-translation-addon}/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/vot-extension@firefox.xpi";
+              install_url = "file://${voiceOverTranslationAddon}/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/vot-extension@firefox.xpi";
               default_area = "navbar";
             };
 
             "addon@vknext.net" = {
               installation_mode = "force_installed";
-              install_url = "file://${vk-next-addon}/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/addon@vknext.net.xpi";
+              install_url = "file://${vkNextAddon}/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/addon@vknext.net.xpi";
               default_area = "navbar";
             };
 
@@ -156,10 +119,10 @@ in {
         extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
           bitwarden
           ublock-origin-upstream
-          voice-over-translation-addon
+          pkgs."voice-over-translation-addon"
           sponsorblock
           return-youtube-dislikes
-          vk-next-addon
+          pkgs."vk-next-addon"
         ];
 
         search = {

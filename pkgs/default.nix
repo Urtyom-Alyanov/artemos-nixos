@@ -1,19 +1,48 @@
-{
-  inputs,
-  # pkgs,
-  ...
-}: let
-  # yt-dlp-yandex-translate = pkgs.callPackage ./yt-dlp-yandex-translate;
-in {
-  flake.overlays.default = final: prev:
-    with inputs; let
-      system = final.system;
-    in {
-      # inherit yt-dlp-yandex-translate;
+{inputs, ...}: let
+  substitutePkgsFromFlakes = system:
+    with inputs; {
       niri = niri-wm.packages.${system}.niri-unstable;
       lzbt = lanzaboote.packages.${system}.lzbt;
       stub = lanzaboote.packages.${system}.stub;
     };
+
+  localPackageDirs =
+    builtins.filter
+    (name: builtins.pathExists "${toString ./.}/${name}/default.nix")
+    (builtins.attrNames (builtins.readDir ./.));
+  localPackagesFromPkgs = pkgs:
+    builtins.listToAttrs (map (name: {
+        name = name;
+        value = pkgs.${name};
+      })
+      localPackageDirs);
+  localPackagesFromPrev = prev:
+    builtins.listToAttrs (map (name: {
+        name = name;
+        value = prev.callPackage ./${name} {};
+      })
+      localPackageDirs);
+in {
+  flake.overlays.default = final: prev: let
+    system = final.system;
+    localPackages = localPackagesFromPrev prev;
+  in
+    localPackages
+    // substitutePkgsFromFlakes system;
+
+  flake.packages = with inputs; let
+    system = "x86_64-linux";
+    pkgs = import nixpkgs {
+      inherit system;
+      config.allowUnfree = true;
+      overlays = self.internal.allOverlays;
+    };
+    localPackages = localPackagesFromPkgs pkgs;
+  in {
+    x86_64-linux =
+      localPackages
+      // substitutePkgsFromFlakes system;
+  };
 
   flake.internal.allOverlays = with inputs; [
     self.overlays.default
