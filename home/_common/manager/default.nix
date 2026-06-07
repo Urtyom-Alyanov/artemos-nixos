@@ -11,6 +11,9 @@
 in {
   imports = with inputs; [
     agenix.homeManagerModules.default
+    stylix.homeModules.stylix
+    zen-browser.homeModules.beta
+    nixcord.homeModules.nixcord
   ];
 
   _module.args = {
@@ -44,5 +47,6 @@ in {
     };
   };
 
+  home.sessionPath = ["$HOME/.local/bin"];
   home.stateVersion = "26.11";
 }

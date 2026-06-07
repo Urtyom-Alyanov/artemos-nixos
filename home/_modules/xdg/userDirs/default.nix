@@ -41,6 +41,7 @@ in {
         config.xdg.userDirs.pictures
         config.xdg.userDirs.videos
         config.xdg.userDirs.projects
+        # (language-specific persistence dirs moved to language modules)
       ];
     };
   };
