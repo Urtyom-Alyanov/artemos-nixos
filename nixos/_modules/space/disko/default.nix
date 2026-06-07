@@ -138,11 +138,11 @@ in {
                 msr = {
                   name = "Microsoft reserved partition";
                   size = "16M";
-                  type = "E311";
+                  type = "0C01";
                 };
                 windows = {
                   size = moduleConfig.bootDisk.dualbootWindows.size;
-                  type = "EBD0";
+                  type = "0700";
                   content = {
                     type = "filesystem";
                     format = "ntfs";
@@ -153,7 +153,7 @@ in {
               // (optionalAttrs hasRecovery {
                 win-recovery = {
                   size = "1G";
-                  type = "DE94";
+                  type = "2700";
                   content = {
                     type = "filesystem";
                     format = "ntfs";
@@ -164,6 +164,7 @@ in {
               // {
                 root = {
                   size = "100%";
+                  type = "8304";
                   content = {
                     type = "btrfs";
                     extraArgs = ["-f" "-L" "NixOS"];
