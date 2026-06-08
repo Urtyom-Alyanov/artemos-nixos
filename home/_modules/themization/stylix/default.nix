@@ -34,7 +34,7 @@ with lib; {
     };
 
     fonts = mkOption {
-      type = types.attrsOf types.any;
+      type = types.attrsOf types.anything;
       description = "Font selection for stylix";
       default = {
         monospace = {
@@ -63,7 +63,7 @@ with lib; {
     };
 
     opacity = mkOption {
-      type = types.attrsOf types.num;
+      type = types.attrsOf types.float;
       default = {
         applications = 1;
         terminal = 0.8;
@@ -73,7 +73,7 @@ with lib; {
     };
 
     cursor = mkOption {
-      type = types.attrsOf types.any;
+      type = types.attrsOf types.anything;
       default = {
         package = pkgs.catppuccin-cursors.mochaDark;
         name = "catppuccin-mocha-dark-cursors";
