@@ -13,6 +13,8 @@ in {
     stylix.homeModules.stylix
     zen-browser.homeModules.beta
     nixcord.homeModules.nixcord
+    niri-wm.homeModules.stylix
+    niri-wm.homeModules.niri
   ];
 
   _module.args = {

@@ -4,6 +4,7 @@
       niri = niri-wm.packages.${system}.niri-unstable;
       lzbt = lanzaboote.packages.${system}.lzbt;
       stub = lanzaboote.packages.${system}.stub;
+      zen-browser = zen-browser.packages.${system}.beta;
     };
 
   localPackageDirs =

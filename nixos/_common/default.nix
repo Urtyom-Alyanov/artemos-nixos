@@ -33,8 +33,10 @@ in {
 
   modules.network.kdeconnect.enable = true;
 
-  modules.desktop.login.kde-login.enable = true;
-  modules.desktop.desktop-environments.kde-plasma.enable = true;
+  # modules.desktop.login.kde-login.enable = true;
+  # modules.desktop.desktop-environments.kde-plasma.enable = true;
+  modules.desktop.window-managers.niri.enable = true;
+  modules.desktop.login.greetd-tui.enable = true;
 
   modules.desktop.wayland.enable = true;
 
