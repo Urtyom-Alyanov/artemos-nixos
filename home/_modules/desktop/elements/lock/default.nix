@@ -22,7 +22,7 @@ with lib; {
       };
     };
 
-    systemd.user.services.sway-audio-idle-inhibit = mkIf cfg.inhibitAudio {
+    systemd.user.services.sway-audio-idle-inhibit = mkIf moduleConfig.inhibitAudio {
       description = "Inhibit idle management when audio is playing";
       wantedBy = ["graphical-session.target"];
       partOf = ["graphical-session.target"];
