@@ -47,7 +47,7 @@ in {
 
   modules.security.ssh = {
     enable = true;
-    enableAgent = true;
+    agent = "gpg";
   };
 
   modules.network.proxy.mihomo = {

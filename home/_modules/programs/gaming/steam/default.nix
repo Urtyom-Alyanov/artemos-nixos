@@ -9,7 +9,7 @@
   ...
 }:
 with lib; let
-  persistEnable = config.modules.persistence.enable;
+  persistEnable = config.homeModules.persistence.enable;
 in {
   options = mkOptions {
     enable = mkEnableOption "Enable Steam package and autostart support";

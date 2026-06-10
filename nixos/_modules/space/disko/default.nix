@@ -322,6 +322,12 @@ in {
               neededForBoot = true;
             };
           }
+          {
+            name = "/home/${userName}";
+            value = {
+              neededForBoot = true;
+            };
+          }
         ]))
         lib.flatten
         lib.listToAttrs

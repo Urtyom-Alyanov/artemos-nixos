@@ -9,7 +9,7 @@
   ...
 }:
 with lib; let
-  persistEnable = config.modules.persistence.enable;
+  persistEnable = config.homeModules.persistence.enable;
 in {
   options = mkOptions {
     enable = mkEnableOption "Enable nixcord with Equibop and custom theming";

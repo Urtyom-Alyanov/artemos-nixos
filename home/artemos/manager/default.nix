@@ -1,4 +1,8 @@
-{secretsDir, ...}: let
+{
+  secretsDir,
+  pkgs,
+  ...
+}: let
   email = "urtyomalyanov@gmail.com";
 in {
   homeModules = {
@@ -16,6 +20,11 @@ in {
       java.enable = true;
       python.enable = true;
       rust.enable = true;
+    };
+    themization.stylix = {
+      enable = true;
+      base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+      image = "${pkgs.nixos-artwork.wallpapers.catppuccin-mocha}/share/backgrounds/nixos/nixos-wallpaper-catppuccin-mocha.png";
     };
     programs = {
       gaming = {

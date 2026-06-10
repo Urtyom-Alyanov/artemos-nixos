@@ -5,10 +5,11 @@
 }: {
   lib,
   config,
+  pkgs,
   ...
 }:
 with lib; let
-  plymouth = config.modules.boot.plymouth;
+  silent = config.modules.boot.silent;
 in {
   options = mkOptions {
     enable = mkEnableOption "activate greetd service with tuigreet";
@@ -17,7 +18,7 @@ in {
   config = mkIf moduleConfig.enable {
     services.greetd = {
       enable = true;
-      greeterManagesPlymouth = plymouth.enable;
+      greeterManagesPlymouth = silent.plymouth;
       useTextGreeter = true;
       settings = {
         default_session = {
