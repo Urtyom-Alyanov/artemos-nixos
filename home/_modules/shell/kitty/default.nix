@@ -1,13 +1,14 @@
 {
   moduleConfig,
   mkOptions,
+  ...
 }: {lib, ...}:
 with lib; {
   options = mkOptions {
     enable = mkEnableOption "kitty TTY emulator configure";
   };
 
-  config = mkIf moduleConfig {
+  config = mkIf moduleConfig.enable {
     programs.kitty = {
       enable = true;
       settings = {

@@ -10,6 +10,8 @@ in {
       elements = {
         rofi.enable = true;
         waybar.enable = true;
+        swaybg.enable = true;
+        lock.enable = true;
       };
       window-managers.niri.enable = true;
     };
@@ -21,6 +23,7 @@ in {
       python.enable = true;
       rust.enable = true;
     };
+
     themization.stylix = {
       enable = true;
       base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
@@ -62,6 +65,7 @@ in {
         useFetchAsFishGreeting = true;
       };
       starship.enable = true;
+      kitty.enable = true;
 
       programs = {
         fastfetch.enable = true;

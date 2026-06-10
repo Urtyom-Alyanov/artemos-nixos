@@ -5,7 +5,6 @@
 }: {
   lib,
   pkgs,
-  config,
   ...
 }:
 with lib; {

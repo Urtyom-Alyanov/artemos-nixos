@@ -9,7 +9,7 @@
   ...
 }:
 with lib; {
-  optioons = mkOptions {
+  options = mkOptions {
     enable = mkEnableOption "add wallpaper managment from swybg";
   };
 
