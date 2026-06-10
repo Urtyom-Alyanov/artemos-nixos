@@ -10,6 +10,7 @@
 with lib; {
   options = mkOptions {
     enable = mkEnableOption "add swaylock";
+    inhibitAudio = mkEnableOption "inhibit on audio";
   };
 
   config = mkIf moduleConfig.enable {

@@ -11,7 +11,10 @@ in {
         rofi.enable = true;
         waybar.enable = true;
         swaybg.enable = true;
-        lock.enable = true;
+        lock = {
+          enable = true;
+          inhibitAudio = true;
+        };
       };
       window-managers.niri.enable = true;
     };
